@@ -16,12 +16,9 @@ from cryptography.fernet import Fernet
 
 # Encryption config
 ENCRYPTION_KEY = os.getenv('ENCRYPTION_KEY')
-#test
-print("encryption here")
-print(ENCRYPTION_KEY)
 if not ENCRYPTION_KEY:
     raise ValueError("ENCRYPTION_KEY environment variable is not set.")
-print(ENCRYPTION_KEY)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -55,7 +52,9 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5, 
 }
 
 MIDDLEWARE = [
@@ -71,22 +70,22 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',  # React app running on localhost
     "http://127.0.0.1:3000",
     "https://employeeleavetracker.com",
 ]
 
-# Allow specific headers for your leave requests
+
+CORS_ALLOW_CREDENTIALS = True
+
+# Allow specific headers for the leave requests
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
     'authorization',
     'content-type',
-    # 'dnt',    says not relevant but why
     'origin',
     'user-agent',
     'x-csrftoken',
-    # 'x-requested-with',   legacy header, not used in modern apps it says wbut why
 ]
 
 CORS_ALLOW_METHODS = [
